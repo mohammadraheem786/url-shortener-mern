@@ -1,0 +1,6 @@
+{"email":"testuser@gmail.com","level":"info","message":"Password hashed successfully","timestamp":"2025-07-12T11:49:01.485Z"}
+{"level":"info","message":"User created successfully","timestamp":"2025-07-12T11:49:01.573Z","userId":"68724bad847d4e98e9238961"}
+{"level":"info","message":"Token generated successfully","timestamp":"2025-07-12T11:49:01.576Z","userId":"68724bad847d4e98e9238961"}
+{"level":"info","message":"User logged in successfully","timestamp":"2025-07-12T11:49:04.809Z","userId":"68724bad847d4e98e9238961"}
+{"level":"warn","message":"Registration attempt for existing email: testuser@gmail.com","timestamp":"2025-07-13T12:58:48.465Z"}
+{"email":"testuser@gmail.com","error":{},"level":"error","message":"Error finding user","timestamp":"2025-07-13T14:43:48.683Z"}
