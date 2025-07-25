@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+// import backgroundImg from "../assets/background.jpg";
 import { createShortUrl } from "../apis/shortUrl.api";
 import { Link } from "@tanstack/react-router";
 
 const UrlForm = ({ onUrlAdded }) => {
   const [inputUrl, setInputUrl] = useState("");
-  const [customAlias, setCustomAlias] = useState(""); // ✅ For custom URL
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [shortUrl, setShortUrl] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -13,8 +12,7 @@ const UrlForm = ({ onUrlAdded }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
-
+  // Track mouse movement
   useEffect(() => {
     const handleMouseMove = (e) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
@@ -23,6 +21,7 @@ const UrlForm = ({ onUrlAdded }) => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShortUrl(null);
@@ -30,16 +29,9 @@ const UrlForm = ({ onUrlAdded }) => {
     setLoading(true);
 
     try {
-      // Send customAlias only if user is authenticated and alias is entered
-      const payload = { originalUrl: inputUrl };
-      if (isAuthenticated && customAlias.trim() !== "") {
-        payload.customAlias = customAlias.trim();
-      }
-
-      const data = await createShortUrl(payload);
+      const data = await createShortUrl(inputUrl);
       setShortUrl(data.shortUrl || data);
       setInputUrl("");
-      setCustomAlias("");
       if (onUrlAdded) onUrlAdded();
     } catch {
       setError("An error occurred while shortening the URL.");
@@ -62,7 +54,7 @@ const UrlForm = ({ onUrlAdded }) => {
 
   return (
     <div className="relative w-full max-w-3xl mx-auto p-6 rounded-2xl overflow-hidden bg-white shadow-xl backdrop-blur-md bg-opacity-90">
-      {/* Mouse glow */}
+      {/* Mouse glow animation */}
       <div
         className="absolute w-8 h-8 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 rounded-full pointer-events-none animate-ping z-10"
         style={{
@@ -78,10 +70,9 @@ const UrlForm = ({ onUrlAdded }) => {
         🔗 Shorten Your URL
       </h1>
 
+      {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <p className="text-center text-gray-700">Paste the URL to be shortened</p>
-
-        {/* Original URL */}
         <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
@@ -91,38 +82,20 @@ const UrlForm = ({ onUrlAdded }) => {
             className="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300"
             disabled={loading}
           />
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+            disabled={loading || !inputUrl}
+          >
+            {loading ? "Shortening..." : "Shorten URL"}
+          </button>
         </div>
-
-        {/* Custom Alias (Only for authenticated users) */}
-        {isAuthenticated && (
-          <div className="mt-2">
-            <input
-              type="text"
-              value={customAlias}
-              onChange={(e) => setCustomAlias(e.target.value)}
-              placeholder="Optional custom alias (e.g. my-link)"
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-all duration-300"
-              disabled={loading}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Want a custom link? Set your preferred alias here.
-            </p>
-          </div>
-        )}
-
-        {/* Submit */}
-        <button
-          type="submit"
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-          disabled={loading || !inputUrl}
-        >
-          {loading ? "Shortening..." : "Shorten URL"}
-        </button>
       </form>
 
+      {/* Error */}
       {error && <p className="text-center mt-3 text-red-500">{error}</p>}
 
-      {/* Shortened URL result */}
+      {/* Shortened URL */}
       {shortUrl && (
         <div className="mt-6 text-center space-y-2 animate-fade-in-up">
           <p className="text-lg font-semibold text-gray-800">🎉 Your Shortened URL:</p>
@@ -156,6 +129,20 @@ const UrlForm = ({ onUrlAdded }) => {
         </div>
       )}
 
+      {/* Promo Section
+      <div className="mt-6 p-4 bg-blue-50 rounded-xl shadow animate-fade-in">
+        <p className="text-gray-800 font-medium text-center">Want More? Try Premium Features!</p>
+        <p className="text-gray-600 text-center mt-2">
+          Custom links, analytics, dashboard, QR codes, and more.
+        </p>
+        <Link to="/auth/signup">
+          <button className="mt-4 w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-2 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+          🚀 Create Account
+        </button>
+        </Link>
+      </div> */}
+
+      {/* Footer Note */}
       <p className="text-center text-gray-500 text-xs mt-6 animate-fade-in-up">
         Shorten links for platforms like Instagram, YouTube, Twitter, and more!
       </p>

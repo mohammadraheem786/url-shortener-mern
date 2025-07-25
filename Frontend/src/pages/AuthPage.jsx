@@ -1,16 +1,12 @@
-import React, { useState } from 'react'
-import LoginForm from '../components/LoginForm'
-import RegisterForm from '../components/RegisterForm'
+// src/pages/AuthPage.jsx
+import React from 'react'
+import { Outlet } from '@tanstack/react-router'
 
 const AuthPage = () => {
-
-    const [login, setLogin] = useState(true)
-
-    return (
-        <>
-            {login ? <LoginForm state={setLogin} /> : <RegisterForm state={setLogin} />}
-        </>
-    )
+  return (
+   
+    <Outlet />
+  )
 }
 
 export default AuthPage

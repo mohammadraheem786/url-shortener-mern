@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import UrlModel from "../models/shorturl.model.js";
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -33,3 +34,6 @@ export const findUserById = async (id) => {
     throw new Error(`Database error: ${error.message}`);
   }
 };
+export const getAllUserUrlsDao = async (id) => {
+    return await UrlModel.find({user:id})
+}

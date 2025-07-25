@@ -4,3 +4,5 @@
 {"level":"info","message":"User logged in successfully","timestamp":"2025-07-12T11:49:04.809Z","userId":"68724bad847d4e98e9238961"}
 {"level":"warn","message":"Registration attempt for existing email: testuser@gmail.com","timestamp":"2025-07-13T12:58:48.465Z"}
 {"email":"testuser@gmail.com","error":{},"level":"error","message":"Error finding user","timestamp":"2025-07-13T14:43:48.683Z"}
+{"level":"warn","message":"Registration attempt for existing email: raheem12@gmail.com","timestamp":"2025-07-24T15:25:16.837Z"}
+{"level":"warn","message":"Registration attempt for existing email: raheem12@gmail.com","timestamp":"2025-07-24T15:25:26.357Z"}
